@@ -35,7 +35,9 @@ export async function saveText(filePath: string, text: string) {
 }
 
 export function ensureDirectoryExistence(selectedPath: string, isDir = false, tryIndex = 0) {
-  if (tryIndex >= 2) {
+  const tryLimit = 2
+
+  if (tryIndex >= tryLimit) {
     return { result: false }
   }
   try {
@@ -45,9 +47,12 @@ export function ensureDirectoryExistence(selectedPath: string, isDir = false, tr
     }
 
     ensureDirectoryExistence(dirname, false, ++tryIndex)
-    fs.mkdirSync(dirname, {
-      recursive: true
-    })
+
+    return {
+      result: fs.mkdirSync(dirname, {
+        recursive: true
+      })
+    }
   } catch (e: any) {
     return {
       result: fs.existsSync(selectedPath),
