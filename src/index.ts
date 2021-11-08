@@ -12,7 +12,7 @@ export function saveBuffer(filePath: string, buffer: Buffer) {
 
   reTryCatch({
     fn: () => {
-      fs.writeFileSync(filePath, buffer)
+      fs.writeFileSync(filePath, buffer, 'utf8')
     },
     title: 'saveBuffer'
   })
